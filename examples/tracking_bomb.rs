@@ -2,7 +2,7 @@ use bevy::{
     core::FixedTimestep,
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
     prelude::*,
-    render::options::{Backends, WgpuOptions},
+    render::settings::{Backends, WgpuSettings},
 };
 
 const WINDOW_HEIGHT: f32 = 800.0;
@@ -14,7 +14,7 @@ const PLAYER_SPEED: f32 = 120.0;
 
 fn main() {
     App::new()
-        .insert_resource(WgpuOptions {
+        .insert_resource(WgpuSettings {
             backends: Some(Backends::VULKAN),
             ..Default::default()
         })
@@ -63,6 +63,9 @@ struct BumbToSpawn(Vec3);
 
 #[derive(Component)]
 struct Bomb;
+
+#[derive(Component)]
+struct BombTimer(Timer);
 
 #[derive(Component)]
 struct Player;
@@ -219,8 +222,8 @@ fn bomb_spawn(
                 },
                 ..Default::default()
             })
-            .insert(Timer::from_seconds(1.5, false))
-            .insert(Bomb);
+            .insert(Bomb)
+            .insert(BombTimer(Timer::from_seconds(1.5, false)));
 
         commands.entity(entity).despawn();
     }
@@ -228,15 +231,15 @@ fn bomb_spawn(
 
 fn bom_animation(
     mut commands: Commands,
-    mut query: Query<(Entity, &mut Timer, &mut Sprite), With<Bomb>>,
+    mut query: Query<(Entity, &mut Sprite, &mut BombTimer), With<Bomb>>,
     time: Res<Time>,
 ) {
-    for (entity, mut timer, mut sprite) in query.iter_mut() {
-        timer.tick(time.delta());
+    for (entity, mut sprite, mut bomb_timer) in query.iter_mut() {
+        bomb_timer.0.tick(time.delta());
 
-        sprite.color.set_a(timer.percent_left());
+        sprite.color.set_a(bomb_timer.0.percent_left());
 
-        if timer.finished() {
+        if bomb_timer.0.finished() {
             commands.entity(entity).despawn();
         }
     }

@@ -2,7 +2,7 @@ use bevy::{
     core::FixedTimestep,
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
     prelude::*,
-    render::options::{Backends, WgpuOptions},
+    render::settings::{Backends, WgpuSettings},
 };
 
 const WINDOW_HEIGHT: f32 = 600.0;
@@ -15,7 +15,7 @@ const MISSILE_SPEED: f32 = 180.0;
 
 fn main() {
     App::new()
-        .insert_resource(WgpuOptions {
+        .insert_resource(WgpuSettings {
             backends: Some(Backends::VULKAN),
             ..Default::default()
         })

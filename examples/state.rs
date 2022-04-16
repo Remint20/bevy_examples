@@ -4,7 +4,7 @@ use bevy::{
     core::FixedTimestep,
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
     prelude::*,
-    render::options::{Backends, WgpuOptions},
+    render::settings::{Backends, WgpuSettings},
 };
 
 #[derive(Clone, Eq, PartialEq, Debug, Hash)]
@@ -15,7 +15,7 @@ enum GameState {
 
 fn main() {
     App::new()
-        .insert_resource(WgpuOptions {
+        .insert_resource(WgpuSettings {
             backends: Some(Backends::VULKAN),
             ..Default::default()
         })

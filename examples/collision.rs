@@ -3,8 +3,8 @@
 use std::path::Path;
 
 use bevy::prelude::*;
-use bevy::render::options::{Backends, WgpuOptions};
-use bevy::render::texture::ImageType;
+use bevy::render::settings::{Backends, WgpuSettings};
+use bevy::render::texture::{CompressedImageFormats, ImageType};
 use bevy::sprite::collide_aabb::collide;
 
 const SPRITE_DIR: &str = "assets/textures";
@@ -18,7 +18,7 @@ struct SpriteInfos {
 
 fn main() {
     App::new()
-        .insert_resource(WgpuOptions {
+        .insert_resource(WgpuSettings {
             backends: Some(Backends::VULKAN),
             ..Default::default()
         })
@@ -54,9 +54,15 @@ fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
 fn load_image(images: &mut ResMut<Assets<Image>>, path: &str) -> (Handle<Image>, Vec2) {
     let path = Path::new(SPRITE_DIR).join(path);
     let bytes = std::fs::read(&path).expect(&format!("Cannot find {}", path.display()));
-    let image = Image::from_buffer(&bytes, ImageType::MimeType("image/png")).unwrap();
-    let size = image.texture_descriptor.size;
-    let size = Vec2::new(size.width as f32, size.height as f32);
+    let image = Image::from_buffer(
+        &bytes,
+        ImageType::MimeType("image/png"),
+        CompressedImageFormats::NONE,
+        false,
+    )
+    .unwrap();
+    let size = image.size();
+
     let image_handle = images.add(image);
     (image_handle, size)
 }
