@@ -10,7 +10,7 @@
 use std::path::Path;
 
 use bevy::prelude::*;
-use bevy::render::settings::{Backends, WgpuSettings};
+// use bevy::render::settings::{Backends, WgpuSettings};
 use bevy::render::texture::{CompressedImageFormats, ImageType};
 use bevy::sprite::collide_aabb::collide;
 
