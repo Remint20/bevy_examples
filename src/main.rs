@@ -58,7 +58,7 @@ fn cursor_system(
                 // ウィンドウサイズの取得
                 let window_size = Vec2::new(wnd.width() as f32, wnd.height() as f32);
 
-                // convert screen position [0..resolution] to ndc [-1..1] (gpu coordinates)
+                // [0..window_size]（画面位置） -> [-1..1]（gpu座標）に変換します
                 let ndc = (screen_pos / window_size) * 2.0 - Vec2::ONE;
 
                 // 投影とカメラ変換を元に戻すための行列
@@ -80,6 +80,6 @@ fn cursor_system(
 
 fn look_at(mut query: Query<&mut Transform, With<Player>>, mouse_pos: Res<MousePos>) {
     if let Ok(mut tf) = query.get_single_mut() {
-        tf.look_at(Vec3::Z, Vec3::from((mouse_pos.0, 0.)));
+        tf.look_at(Vec3::from((mouse_pos.0, 0.)), Vec3::X);
     }
 }

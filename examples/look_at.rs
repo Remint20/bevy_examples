@@ -81,5 +81,11 @@ fn cursor_system(
 fn look_at(mut query: Query<&mut Transform, With<Player>>, mouse_pos: Res<MousePos>) {
     if let Ok(mut tf) = query.get_single_mut() {
         tf.look_at(Vec3::Z, Vec3::from((mouse_pos.0, 0.)));
+
+        let rotation = tf
+            .looking_at(Vec3::Z, Vec3::from((mouse_pos.0, 0.)))
+            .rotation;
+
+        println!("{}", rotation.x.atan2(rotation.y).to_degrees() * 2.0);
     }
 }

@@ -40,7 +40,7 @@ fn main() {
                 .with_system(a_after_system),
         )
         .add_system_set(
-            // with_run_criteriaを付けると on_enter, on_update関係無くタイムステップごとに動作する
+            // BUG: with_run_criteriaを付けるとStateの状態に関係無くタイムステップごとに動作する
             SystemSet::on_exit(GameState::B)
                 .with_run_criteria(FixedTimestep::step(1.0))
                 .with_system(b_system),
