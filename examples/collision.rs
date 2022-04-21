@@ -4,6 +4,7 @@
 // 当たり判定
 //
 // 現在: Failed to acquire next swap chain texture!のバグが発生している。
+// AMD固有のバグらしい。詳しくは https://github.com/bevyengine/bevy/issues/3606
 //
 
 use std::path::Path;
@@ -24,17 +25,16 @@ struct SpriteInfos {
 
 fn main() {
     App::new()
-        .insert_resource(WgpuSettings {
-            backends: Some(Backends::VULKAN),
-            ..Default::default()
-        })
+        // .insert_resource(WgpuSettings {
+        //     backends: Some(Backends::VULKAN),
+        //     ..Default::default()
+        // })
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup)
-        .add_startup_system_set_to_stage("", SystemSet::new().with_system(player_spawn))
-        // .add_startup_stage(
-        //     "spawn",
-        //     SystemStage::single(player_spawn).with_system(enemy_spawn),
-        // )
+        .add_startup_stage(
+            "spawn",
+            SystemStage::single(player_spawn).with_system(enemy_spawn),
+        )
         .add_system(collision)
         .add_system(player_movement)
         .run();
