@@ -1,3 +1,9 @@
+// #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
+//
+// プレイヤーを追跡する弾丸、
+//
+
 use bevy::{
     core::FixedTimestep,
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},

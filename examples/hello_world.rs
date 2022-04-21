@@ -1,10 +1,10 @@
 // #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-///
-/// consoleにHello Worldを出力する
-///
-/// ゲーム画面はでない
-///
+//
+// consoleにHello Worldを出力する
+//
+// ゲーム画面はでない
+//
 use bevy::prelude::*;
 
 fn main() {

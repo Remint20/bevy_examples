@@ -1,6 +1,10 @@
 // #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-use bevy::diagnostic::FrameTimeDiagnosticsPlugin;
+//
+// スプラッシュ画面の表示とボタンアクションのログ
+//
+
+use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::render::settings::{Backends, WgpuSettings};
 
@@ -19,6 +23,7 @@ fn main() {
         })
         .add_plugins(DefaultPlugins)
         .add_plugin(FrameTimeDiagnosticsPlugin::default())
+        .add_plugin(LogDiagnosticsPlugin::default())
         .add_startup_system(setup)
         .add_state(GameState::Splash)
         .add_plugin(benchmark::BenchMarkPlugin)
@@ -83,7 +88,7 @@ mod splash {
             .insert(OnSplashScreen);
 
         // Splashを表示する時間を指定
-        commands.insert_resource(SplashTimer(Timer::from_seconds(1.2, false)));
+        commands.insert_resource(SplashTimer(Timer::from_seconds(2.0, false)));
     }
 
     fn countdown(

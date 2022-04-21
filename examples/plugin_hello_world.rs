@@ -1,10 +1,19 @@
 // #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+//
+// 画面上に「Hello World」の文字を表示
+//
+
 use bevy::prelude::*;
+use bevy::render::settings::{Backends, WgpuSettings};
 
 fn main() {
     App::new()
         .insert_resource(ClearColor(Color::rgb(0.69, 0.77, 0.87)))
+        .insert_resource(WgpuSettings {
+            backends: Some(Backends::VULKAN),
+            ..Default::default()
+        })
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup)
         .run();

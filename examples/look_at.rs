@@ -1,3 +1,9 @@
+// #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
+//
+// オブジェクトをマウスカーソルの方向に向ける
+//
+
 use bevy::diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin};
 use bevy::prelude::*;
 use bevy::render::settings::{Backends, WgpuSettings};
@@ -72,7 +78,7 @@ fn cursor_system(
                 let world_pos: Vec2 = world_pos.truncate();
 
                 mouse_pos.0 = world_pos;
-                // eprintln!("World coords: {}/{}", world_pos.x, world_pos.y);
+                println!("World coords: {}/{}", world_pos.x, world_pos.y);
             }
         }
     }

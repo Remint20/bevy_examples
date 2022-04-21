@@ -1,3 +1,9 @@
+// #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
+//
+// マウスポジションをワールド座標として入手
+//
+
 use bevy::{
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
     prelude::*,

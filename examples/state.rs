@@ -1,5 +1,11 @@
 // #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+//
+// Stateによる実行管理
+//
+// 一部バグが発生しているので正常な動作が行われていないところがあります。
+//
+
 use bevy::{
     core::FixedTimestep,
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},

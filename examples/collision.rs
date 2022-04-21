@@ -1,5 +1,11 @@
 // #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+//
+// 当たり判定
+//
+// 現在: Failed to acquire next swap chain texture!のバグが発生している。
+//
+
 use std::path::Path;
 
 use bevy::prelude::*;
@@ -24,10 +30,11 @@ fn main() {
         })
         .add_plugins(DefaultPlugins)
         .add_startup_system(setup)
-        .add_startup_stage(
-            "spawn",
-            SystemStage::single(player_spawn).with_system(enemy_spawn),
-        )
+        .add_startup_system_set_to_stage("", SystemSet::new().with_system(player_spawn))
+        // .add_startup_stage(
+        //     "spawn",
+        //     SystemStage::single(player_spawn).with_system(enemy_spawn),
+        // )
         .add_system(collision)
         .add_system(player_movement)
         .run();
@@ -40,10 +47,7 @@ struct Enemy;
 struct Player;
 
 fn setup(mut commands: Commands, mut images: ResMut<Assets<Image>>) {
-    commands.spawn_bundle(UiCameraBundle::default());
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
-
-    // let enemy_sprite = asset_server.load(HANIWA_SPRITE);
 
     commands.insert_resource(SpriteInfos {
         player: load_image(&mut images, PLAYER_SPRITE),

@@ -1,5 +1,11 @@
 // #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+//
+// System実行順序の確認
+//
+// 現在: Failed to acquire next swap chain texture!のバグが発生している。
+//
+
 use bevy::{
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
     prelude::*,
@@ -31,7 +37,6 @@ fn main() {
             SystemStage::single(after_startup_stage_system),
         )
         .add_stage("stage", SystemStage::single(normal_stage_system))
-        .add_stage("pallrel", SystemStage::parallel())
         .add_stage_before("stage", "before", SystemStage::single(before_stage_system))
         .add_stage_after("stage", "after", SystemStage::single(after_stage_system))
         .add_system(normal_system)

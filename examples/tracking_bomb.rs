@@ -1,3 +1,9 @@
+// #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
+//
+// プレイヤーを追跡して、近づくと爆発する
+//
+
 use bevy::{
     core::FixedTimestep,
     diagnostic::{FrameTimeDiagnosticsPlugin, LogDiagnosticsPlugin},
@@ -133,12 +139,12 @@ fn tracking_missile_movement(
     let player_translation = player_transform.translation.truncate();
 
     for (entity, mut tf, mut sprite, mut tracking_missile) in query.iter_mut() {
-        // sprite.flip_x = !sprite.flip_x;
-
         if tracking_missile.is_tracking {
             let missile_translation = tf.translation.truncate();
 
-            if missile_translation.distance(player_translation) <= 100.0 {
+            // 接近距離の指定
+            let approach_distance = 100.0;
+            if missile_translation.distance(player_translation) <= approach_distance {
                 tracking_missile.is_tracking = false;
             }
 
